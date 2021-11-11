@@ -299,6 +299,11 @@ export default defineConfig({
       component: './TestPage',
     },
     {
+      path: '/Category',
+      name: '栏目分类',
+      icon: 'smile',
+      component: './Category',
+    }, {
       path: '/',
       redirect: '/dashboard/analysis',
     },

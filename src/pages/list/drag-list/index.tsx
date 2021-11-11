@@ -27,7 +27,9 @@ const data = [
     index: 2,
   },
 ];
-export default (): React.ReactNode => {
+
+
+const DragList = () => {
   const columns: ProColumns[] = [
     {
       title: '排序',
@@ -115,3 +117,5 @@ export default (): React.ReactNode => {
     </>
   );
 };
+
+export default DragList;

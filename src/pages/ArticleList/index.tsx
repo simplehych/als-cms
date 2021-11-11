@@ -117,16 +117,7 @@ const TableList: React.FC = () => {
       dataIndex: 'title',
       tip: 'The rule name is title',
       render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
+        return (<div>{dom}</div>);
       },
     },
     {
@@ -186,8 +177,11 @@ const TableList: React.FC = () => {
         <a
           key="config"
           onClick={() => {
-            handleUpdateModalVisible(true);
+            // handleUpdateModalVisible(true);
+            // setCurrentRow(record);
+
             setCurrentRow(record);
+            setShowDetail(true);
           }}
         >
           <FormattedMessage id="pages.articleTable.preview" defaultMessage="预览" />

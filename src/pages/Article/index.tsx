@@ -15,8 +15,9 @@ import { updateWxAccessToken } from './wx_config';
 import { queryList } from './wx_database';
 import { articleAdd, articleQuery, articleQueryAll, articleUpdateA } from './wx_cloud_func';
 import { wxUploadFile } from './wx_file';
-import { Affix, PageHeader, Form, Input, InputNumber, Button, Row, Space, Drawer, BackTop, message } from 'antd';
+import { Affix, PageHeader, Form, Input, InputNumber, Button, Row, Space, Drawer, BackTop, message, Modal } from 'antd';
 import {
+  ExclamationCircleOutlined,
   UpOutlined,
 } from '@ant-design/icons';
 
@@ -26,6 +27,7 @@ export default ({ location }): React.ReactNode => {
   const defaultContentHtml = oldData?.content;
   const [contentHtml, setContentHtml] = useState(defaultContentHtml)
   const [showPreviewView, setShowPreviewView] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [formInstance] = Form.useForm()
   const editorRef = useRef(null);
 
@@ -74,12 +76,42 @@ export default ({ location }): React.ReactNode => {
       id: oldData?._id, content: contentHtml, updatedAt: new Date()
     }
     console.log("onFinish ", JSON.stringify(submitOb));
+    setSubmitting(true)
     articleAdd(submitOb, {
-      onSuccess: () => history.goBack(),
-      onFail: () => message.error('This is an error message')
+      onSuccess: () => {
+        setSubmitting(false)
+        history.goBack()
+      },
+      onFail: () => {
+        setSubmitting(false)
+        message.error('This is an error message')
+      }
     })
   };
 
+  const { confirm } = Modal;
+
+  function showConfirm() {
+    confirm({
+      title: '内容未提交，是否退出?',
+      icon: <ExclamationCircleOutlined />,
+      content: '',
+      onOk() { history.goBack() },
+      onCancel() { },
+    });
+  }
+
+  const clickBack = () => {
+    if (submitting) {
+      message.info('正在提交中，请稍等')
+      return
+    }
+    if(isEmptyStr(contentHtml)) {
+      history.goBack()
+      return
+    }
+    showConfirm()
+  }
   const onReset = () => {
     if (editorRef) {
       editorRef.current.setContentByHTMLString("")
@@ -105,14 +137,14 @@ export default ({ location }): React.ReactNode => {
             <Row justify="space-between" style={{ background: "#EEEEEE" }} align="middle">
               <PageHeader
                 className="site-page-header"
-                onBack={() => history.goBack()}
+                onBack={clickBack}
                 title="文章编辑"
                 subTitle=""
               />
               <Space style={{ margin: 10 }}>
                 <Button type="default" htmlType="button" size="large" onClick={onReset} >重置</Button>
                 <Button type="default" htmlType="button" size="large" onClick={onClickPreview} >预览</Button>
-                <Button type="primary" htmlType="submit" size="large" >提交</Button>
+                <Button type="primary" htmlType="submit" size="large" loading={submitting}>提交</Button>
               </Space>
             </Row>
           </Affix>
@@ -523,4 +555,12 @@ async function checkTokenInvalid(resp: RESULT_WX) {
   }
   console.log('checkTokenInvalid', 'false')
   return false;
+}
+
+function isEmptyStr(str: string) {
+  return typeof str === 'undefined' || str == null || str === '';
+}
+
+function isEmptyArr(arr: []) {
+  return Array.isArray(arr) && arr.length
 }
