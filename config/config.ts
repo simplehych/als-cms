@@ -89,6 +89,13 @@ export default defineConfig({
       ],
     },
     {
+      path: '/column',
+      name: 'column',
+      icon: 'smile',
+      component: './column',
+    },
+    
+    {
       path: '/form',
       icon: 'form',
       name: 'form',
@@ -170,6 +177,12 @@ export default defineConfig({
           icon: 'smile',
           path: '/list/drag-list',
           component: './list/drag-list',
+        },
+        {
+          name: 'edit-list',
+          icon: 'smile',
+          path: '/list/edit-list',
+          component: './list/edit-list',
         },
       ],
     },
@@ -303,7 +316,8 @@ export default defineConfig({
       name: '栏目分类',
       icon: 'smile',
       component: './Category',
-    }, {
+    },
+    {
       path: '/',
       redirect: '/dashboard/analysis',
     },

@@ -22,7 +22,7 @@ const Category: React.FC = () => {
     return `#${Math.random().toString(16).substr(2, 6).toUpperCase()}`
   }
 
-  const defaultValue = `[{"root":[{"name":"root-1-root"}],"leaf":[{"name":"root-1-leaf"}],"name":"root-1"},{"name":"root-2"}]`
+  const defaultValue = `{"root":[{"name":"root-1-root"}],"leaf":[{"name":"root-1-leaf"}],"name":"root-1"},{"name":"root-2"}`
   const defaultOb = JSON.parse(defaultValue)
 
   function TestView(props) {

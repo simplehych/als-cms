@@ -58,9 +58,19 @@ export function articleQueryAllA() {
 
 export function articleDeleteA(ids: string[]) {
   const data = { ids }
-  
   return invokeCloudFunction("article", "delete", data)
 }
+
+export function saveColumn(content: string) {
+  const data = { content, fileName: 'config_column' }
+  return invokeCloudFunction("column", "uploadToCloud", data)
+}
+
+export function fetchColumn() {
+  const data = { fileID: 'cloud://cloud1-9gefcf135bd114f3.636c-cloud1-9gefcf135bd114f3-1305682193/als-care/config_column' }
+  return invokeCloudFunction("column", "downloadFromCloud", data)
+}
+
 
 async function invokeCloudFunction(type: string, node: string, data: any | null) {
   if (!getWxToken()) await updateWxAccessToken()
