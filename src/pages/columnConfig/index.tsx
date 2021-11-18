@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react';
 import ProCard from '@ant-design/pro-card';
-import DragEditList, { DataSourceType } from './drag-edit-list';
+import DragEditList, { ColumnType } from './drag-edit-list';
 import { Affix, Button, Col, Row, Switch } from 'antd';
 import { fetchColumn, saveColumn } from '../Article/wx_cloud_func';
 
-const defaultData: DataSourceType[] = [
+const defaultData: ColumnType[] = [
   {
     id: 624748504,
     title: '护理',
@@ -16,7 +16,7 @@ const defaultData: DataSourceType[] = [
 ]
 
 export default () => {
-  const [dataList, setDataList] = useState<DataSourceType[]>(defaultData)
+  const [dataList, setDataList] = useState<ColumnType[]>(defaultData)
   const [curTabKey, setCurTabKey] = useState(`${defaultData[0].id}`)
   const [showConfigSwitch, setShowConfigSwitch] = useState(false)
 
@@ -33,8 +33,10 @@ export default () => {
         console.log(`getData then: ${JSON.stringify(res)}`)
         const dataStr = JSON.parse(res.resp_data)
         const dataOb = JSON.parse(dataStr)
-        setDataList(dataOb)
-        setCurTabKey(`${dataOb[0].id}`)
+        if (dataOb) {
+          setDataList(dataOb)
+          setCurTabKey(`${dataOb[0].id}`)
+        }
       })
       .catch((err) => { console.log(`getData catch: ${JSON.stringify(err)}`) })
   }
@@ -50,7 +52,7 @@ export default () => {
 
       <Row justify="space-between" align='middle'>
         <Col style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, marginTop: 10 }}>
-          栏目管理
+          栏目配置
         </Col>
         <Col>
           <Switch checkedChildren="配置" unCheckedChildren="配置"
@@ -75,11 +77,11 @@ export default () => {
           },
         }}
       >
-        {dataList.map((value: DataSourceType, index) => (
+        {dataList.map((value: ColumnType, index) => (
           <ProCard.TabPane key={`${value.id}`} tab={value.title} >
             <DragEditList title={value.title}
               data={value.subset}
-              callback={(values: DataSourceType[]) => {
+              callback={(values: ColumnType[]) => {
                 console.log("column: ", JSON.stringify(values))
                 dataList[index].subset = values
                 const newDataList = [...dataList]
@@ -88,8 +90,8 @@ export default () => {
           </ProCard.TabPane>
         ))}
       </ProCard>
-      <Affix offsetBottom={10}>
-        <Button type="primary" onClick={saveData}>
+      <Affix offsetBottom={10} offsetTop={10} >
+        <Button type="primary" onClick={saveData} style={{ width: '100%', textAlign: 'center', marginTop: 10, }}>
           保存
         </Button>
       </Affix>

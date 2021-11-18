@@ -60,6 +60,7 @@
     "@antv/l7-maps": "^2.3.7",
     "@antv/l7-react": "^2.1.9",
     "@types/lodash.debounce": "^4.0.6",
+    "@types/react-sticky": "^6.0.4",
     "@umijs/route-utils": "^1.0.36",
     "ahooks": "^2.0.0",
     "antd": "^4.14.0",

@@ -89,12 +89,23 @@ export default defineConfig({
       ],
     },
     {
-      path: '/column',
-      name: 'column',
+      path: '/columnArticle',
+      name: '栏目文章',
       icon: 'smile',
-      component: './column',
+      component: './columnArticle',
     },
-    
+    {
+      path: '/columnConfig',
+      name: '栏目配置',
+      icon: 'smile',
+      component: './columnConfig',
+    },
+    {
+      path: '/article_list',
+      name: '文章检索',
+      icon: 'smile',
+      component: './ArticleList',
+    },
     {
       path: '/form',
       icon: 'form',
@@ -299,12 +310,7 @@ export default defineConfig({
       icon: 'smile',
       component: './Article',
     },
-    {
-      path: '/article_list',
-      name: '文章列表',
-      icon: 'smile',
-      component: './ArticleList',
-    },
+    
     {
       path: '/test_page',
       name: '测试页面',

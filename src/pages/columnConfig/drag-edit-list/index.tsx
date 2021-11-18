@@ -19,50 +19,22 @@ const waitTime = (time: number = 100) => {
   });
 };
 
-export type DataSourceType = {
+export type ColumnType = {
   id: React.Key;
+  index?: number;
   title?: string;
   decs?: string;
   state?: string;
   kind?: string;
   kindParams?: string;
-  subset?: DataSourceType[];
-  subColumn?: DataSourceType[];
+  subset?: ColumnType[];
+  subColumn?: ColumnType[];
   extendInfo?: string,
 };
 
-const defaultData: DataSourceType[] = [
-  {
-    id: 624748504,
-    title: '活动名称一',
-    decs: '这个活动真好玩',
-    state: 'online',
-    subset: [
-      {
-        id: 624748504,
-        title: '活动名称一/1',
-        decs: '这个活动真好玩',
-        state: 'online',
-      },
-      {
-        id: 624691229,
-        title: '活动名称一/2',
-        decs: '这个活动真好玩',
-        state: 'offline',
-      },
-    ]
-  },
-  {
-    id: 624691229,
-    title: '活动名称二',
-    decs: '这个活动真好玩',
-    state: 'offline',
-  },
-];
-
 const DragEditList = (topProps) => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
-  const [dataSource, setDataSource] = useState<DataSourceType[]>([]);
+  const [dataSource, setDataSource] = useState<ColumnType[]>([]);
   const [positionOfAddData, setPositionOfAddData] = useState<'top' | 'bottom' | 'hidden'>('bottom');
   const [forbiddenDrag, setForbiddenDrag] = useState(false);
   const [devInfoSwitch, setDevInfoSwitch] = useState(false);
@@ -78,7 +50,7 @@ const DragEditList = (topProps) => {
     return () => { }
   }, [topProps])
 
-  const updateData = (newData: DataSourceType[]) => {
+  const updateData = (newData: ColumnType[]) => {
     setDataSource(newData);
     topProps.callback(newData)
   }
@@ -107,9 +79,9 @@ const DragEditList = (topProps) => {
     return <SortableItem index={index} disabled={forbiddenDrag} {...restProps} />;
   };
 
-  const columns: ProColumns<DataSourceType>[] = [
+  const columns: ProColumns<ColumnType>[] = [
     {
-      title: '排序',
+      title: '排序',
       dataIndex: 'sort',
       width: 60,
       className: 'drag-visible',
@@ -237,7 +209,7 @@ const DragEditList = (topProps) => {
 
   return (
     <div {...topProps}>
-      <EditableProTable<DataSourceType>
+      <EditableProTable<ColumnType>
         rowKey="id"
         headerTitle={headerTitle}
         // maxLength={5}
